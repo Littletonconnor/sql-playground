@@ -8,7 +8,7 @@ An easy to setup database environment for learning and testing! :tada:
 
 ## Tables
 
-**Boards**
+### Boards
 
 | Column            | Type                  | Collation | Nullable | Default                      |
 | ----------------- | --------------------- | --------- | -------- | ---------------------------- |
@@ -16,7 +16,8 @@ An easy to setup database environment for learning and testing! :tada:
 | board_name        | character varying(50) |           | not null |                              |
 | board_description | text                  |           | not null |                              |
 
-**comment**
+### Comments
+
 | Column | Type | Collation | Nullable | Default |
 |-------------|---------------------------|-----------|----------|------------------------------|
 | comment_id | integer | | not null | generated always as identity |
@@ -25,14 +26,17 @@ An easy to setup database environment for learning and testing! :tada:
 | comment | text | | not null | |
 | time | timestamp without time zone | | | |
 
-**rich_content**
+### Rich Content
+
 | Column | Type | Collation | Nullable | Default |
 |------------|-------------------------|-----------|----------|------------------------------|
 | content_id | integer | | not null | generated always as identity |
 | comment_id | integer | | | |
 | content | jsonb | | not null | |
 
-**users**
+
+### Users
+
 | Column | Type | Collation | Nullable | Default |
 |------------|---------------------------|-----------|----------|------------------------------|
 | user_id | integer | | not null | generated always as identity |
