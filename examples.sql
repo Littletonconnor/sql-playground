@@ -1,21 +1,37 @@
+-- Basic queries
+SELECT * FROM boards;
+SELECT * FROM comments;
+SELECT * FROM rich_content;
+SELECT * FROM users;
+
+-- Joins
+SELECT * FROM boards INNER JOIN comments ON boards.board_id = comments.board_id;
+SELECT * FROM boards INNER JOIN comments ON boards.board_id = comments.board_id WHERE comments.comment_id = 1;
+SELECT * FROM boards INNER JOIN comments ON boards.board_id = comments.board_id WHERE comments.comment_id IN (1, 2, 3);
+SELECT * FROM boards INNER JOIN comments ON boards.board_id = comments.board_id WHERE comments.comment_id IN (SELECT comment_id FROM comments WHERE comment_id = 1);
+
 -- Sub-queries
-SELECT comment_id, user_id, LEFT(comment, 20) FROM comments WHERE user_id = (SELECT user_id FROM users WHERE full_name = 'Maynord Simonich');
+SELECT * FROM boards WHERE board_id IN (SELECT board_id FROM comments WHERE comment_id = 1);
+SELECT * FROM boards WHERE board_id IN (SELECT board_id FROM comments WHERE comment_id IN (SELECT comment_id FROM comments WHERE comment_id = 1));
+SELECT * FROM boards WHERE board_id IN (SELECT board_id FROM comments WHERE comment_id IN (SELECT comment_id FROM comments WHERE comment_id IN (SELECT comment_id FROM comments WHERE comment_id = 1)));
 
 -- Group by
-select date(time) as date, count(*) as comment_count from comments group by date(time) order by min(time) desc;
+SELECT date(time) as date, count(*) as comment_count FROM comments GROUP BY date(time) ORDER BY min(time) DESC;
 
-SELECT time, count(*) as comment_count FROM comments WHERE board_id = 1 GROUP BY time ORDER BY time DESC
+-- Having
+SELECT date(time) as date, count(*) as comment_count FROM comments GROUP BY date(time) HAVING count(*) > 10 ORDER BY min(time) DESC;
 
-SELECT
-  boards.board_name, COUNT(*) AS comment_count
-FROM
-  comments
-INNER JOIN
-  boards
-ON
-  boards.board_id = comments.board_id
-GROUP BY
-  boards.board_name
-ORDER BY
-  comment_count DESC
-LIMIT 10;
+-- Order by
+SELECT date(time) as date, count(*) as comment_count FROM comments GROUP BY date(time) ORDER BY min(time) DESC;
+
+-- Limit
+SELECT date(time) as date, count(*) as comment_count FROM comments GROUP BY date(time) ORDER BY min(time) DESC LIMIT 10;
+
+-- Date functions
+SELECT date(time) as date, count(*) as comment_count FROM comments GROUP BY date(time) ORDER BY min(time) DESC;
+SELECT date(time) as date, count(*) as comment_count FROM comments GROUP BY date(time) HAVING count(*) > 10 ORDER BY min(time) DESC;
+SELECT date(time) as date, count(*) as comment_count FROM comments GROUP BY date(time) ORDER BY min(time) DESC;
+
+SELECT user_id, username, last_login
+FROM users
+WHERE last_login >= CURRENT_DATE - INTERVAL '7 days';
